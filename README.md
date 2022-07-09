@@ -1,4 +1,4 @@
-# theoreticalStarforce
+# Theoretical Starforce
 The theoretical counterpart to Brendon May's experimental starforce calculator
 
 Brendon May's current starforce calculator relies on running thousands of trials
