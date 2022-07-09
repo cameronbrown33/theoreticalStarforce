@@ -8,3 +8,6 @@ theoretical average meso cost and booms, which eliminates the need for thousands
 of trials. It does not, however, produce percentiles, since those would require
 either a known mathematical distribution (like cubes or flames) or trials to be
 run.
+
+I did shamelessly copy a bunch of the HTML code to get the basic UI working,
+but the JavaScript is 100% original.
