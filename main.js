@@ -198,3 +198,9 @@ function boomCost(star) {
     }
     return total;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("calculate").addEventListener("click", function () {
+        calculate();
+    });
+});
