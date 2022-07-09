@@ -10,11 +10,11 @@ function calculate() {
     let onePlusOneEvent = document.getElementById("one_plus_one").checked;
     let noBoomEvent = document.getElementById("no_boom").checked;
 
-    var successRate = [.95, .9, .85, .85, .8, .75, .7, .65, .6, .55, .5, .45, .4, .35, .3, .3, .3, .3, .3, .3, .3, .3, .03, .02, .01];
-    var boomRate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .01, .02, .02, .03, .03, .03, .04, .04, .1, .1, .2, .3, .4];
-    var price = [];
-    var cost = [];
-    var noBoomChance = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    let successRate = [.95, .9, .85, .85, .8, .75, .7, .65, .6, .55, .5, .45, .4, .35, .3, .3, .3, .3, .3, .3, .3, .3, .03, .02, .01];
+    let boomRate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .01, .02, .02, .03, .03, .03, .04, .04, .1, .1, .2, .3, .4];
+    let price = [];
+    let cost = [];
+    let noBoomChance = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
     let totalCost = 0;
     let totalBooms = 0;
@@ -91,7 +91,7 @@ function calculate() {
 
         if (i <= 10 || i === 15 || i === 20) {
             // easy enough
-            singleCost = (price[i] + (1 - successRate[i]) * boomRate[i] * boomCost(i)) / successRate[i];
+            singleCost = (price[i] + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
         }
         else if (i === 11 || i === 16 || i === 21) {
             // getting intense
@@ -99,7 +99,7 @@ function calculate() {
                 singleCost = price[i] + (1 - successRate[i]) * cost[i - 1];
             }
             else {
-                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * cost[i - 1] + (1 - successRate[i]) * boomRate[i] * boomCost(i)) / successRate[i];
+                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * cost[i - 1] + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
             }
         }
         else {
@@ -108,7 +108,7 @@ function calculate() {
                 singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * price[i - 2])) / successRate[i];
             }
             else {
-                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * (1 - boomRate[i - 1]) * (price[i - 2] + cost[i - 1]) + (1 - successRate[i - 1]) * boomRate[i - 1] * boomCost(i)) + (1 - successRate[i]) * boomRate[i] * boomCost(i)) / successRate[i];
+                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * (1 - boomRate[i - 1]) * (price[i - 2] + cost[i - 1]) + (1 - successRate[i - 1]) * boomRate[i - 1] * boomCost(i, cost)) + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
             }
         }
 
@@ -188,7 +188,7 @@ function calculate() {
     `
 }
 
-function boomCost(star) {
+function boomCost(star, cost) {
     if (star <= 12) {
         return 0;
     }
