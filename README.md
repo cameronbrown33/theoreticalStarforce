@@ -9,5 +9,5 @@ of trials. It does not, however, produce percentiles, since those would require
 either a known mathematical distribution (like cubes or flames) or trials to be
 run.
 
-I did shamelessly copy a bunch of the HTML code to get the basic UI working,
-but the JavaScript is 100% original.
+I did shamelessly copy a bunch of Brendon May's HTML code to get the basic UI
+working, but the JavaScript is 100% original.
