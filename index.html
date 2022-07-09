@@ -1,0 +1,61 @@
+<head>
+  <title>Cam's Star Force Calculator</title>
+</head>
+
+<div class="container-main">
+  <form onsumbit="return false">
+    <div class="main-line">
+      <p>Item Level: <input type="number" id="level" value="200" /></p>
+      <p>Current Stars: <input type="number" id="current_stars" value="0" /></p>
+      <p>Target Stars: <input type="number" id="target_stars" value="22" /></p>
+    </div>
+    
+    <div class="main-line">
+      <p>Star Catching: <select id="starcatch">
+        <option value="none">No star catching</option>
+        <option value="low">+2.5% multiplicative</option>
+        <option value="standard">+5% multiplicative</option>
+        </select>
+      </p>
+      <p>Safeguard: <select id="safeguard">
+        <option value="yes">Safeguard</option>
+        <option value="no">No safeguard</option>
+        </select>
+      </p>
+      <p>MVP Discount: <select id="mvp">
+        <option value="none">None</option>
+        <option value="silver">MVP Silver (3% off 1 to 17)</option>
+        <option value="gold">MVP Gold (5% off 1 to 17)</option>
+        <option value="diamond">MVP Diamond (10% off 1 to 17)</option>
+        </select>
+      </p>
+    </div>
+    
+    <div class="main-line">
+      <p>Event:
+        <label class="checkbox">
+          <input type="checkbox" name="5_10_15" id="5_10_15" value="5_10_15" />
+          <span>5/10/15</span>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="one_plus_one" id="one_plus_one" value="one_plus_one" />
+          <span>1+1 (Up to 10 stars)</span>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="30_percent" id="30_percent" value="30_percent" />
+          <span>30% off</span>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="no_boom" id="no_boom" value="no_boom" />
+          <span>No Boom (Up to 15 stars)</span>
+        </label>
+      </p>
+    </div>
+    
+    <div class="main-line">
+      <button id="calculate" type="submit" class="btn submitBtn">Calculate</button>
+    </div>
+    
+    <div id="results"></div>
+  </form>
+</div>
