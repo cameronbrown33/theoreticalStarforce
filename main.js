@@ -10,6 +10,33 @@ function calculate() {
     let onePlusOneEvent = document.getElementById("one_plus_one").checked;
     let noBoomEvent = document.getElementById("no_boom").checked;
 
+    let error = false;
+    let errorMessage = "";
+
+    if (itemLevel < 0) {
+        error = true;
+        errorMessage = "Lowest item level is 0."
+    }
+    if (current < 0 || target < 0) {
+        error = true;
+        errorMessage = "Lowest star value is 0."
+    }
+    if (current > 25 || target > 25) {
+        error = true;
+        errorMessage = "Highest star value is 25."
+    }
+    if (error) {
+        document.getElementById("results").innerHTML =
+    `
+<div class="results-line">
+  <p>
+    Error: ${errorMessage}<br />
+  </p>
+</div>
+    `
+    return;
+    }
+    
     let successRate = [.95, .9, .85, .85, .8, .75, .7, .65, .6, .55, .5, .45, .4, .35, .3, .3, .3, .3, .3, .3, .3, .3, .03, .02, .01];
     let boomRate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .01, .02, .02, .03, .03, .03, .04, .04, .1, .1, .2, .3, .4];
     let price = [];
@@ -172,11 +199,6 @@ function calculate() {
     let averageMeso = Math.round(totalCost).toLocaleString();
     let averageBooms = (Math.round(1000 * totalBooms) / 1000).toFixed(3);
     
-    //console.log("+++++++++++++++++++++++++++++++++++++");
-    //console.log("+++++++++++++++++++++++++++++++++++++");
-    //console.log("Average meso cost: " + Math.round(totalCost).toLocaleString());
-    //console.log("Average booms: " + (Math.round(1000 * totalBooms) / 1000).toFixed(3));
-
     document.getElementById("results").innerHTML =
     `
 <div class="results-line">
