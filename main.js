@@ -106,7 +106,7 @@ function calculate() {
         price[i] = discount * price[i];
         price[i] += extraCost;
         
-        if (i < 1) {
+        if (successRate[i] < 1) {
             successRate[i] *= starCatchRate;
         }
     }
