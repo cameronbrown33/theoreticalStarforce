@@ -40,6 +40,7 @@ function calculate() {
     let successRate = [.95, .9, .85, .85, .8, .75, .7, .65, .6, .55, .5, .45, .4, .35, .3, .3, .3, .3, .3, .3, .3, .3, .03, .02, .01];
     let boomRate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .01, .02, .02, .03, .03, .03, .04, .04, .1, .1, .2, .3, .4];
     let price = [];
+    let basePrice = [];
     let cost = [];
     let noBoomChance = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
@@ -67,22 +68,21 @@ function calculate() {
     
     for (let i = 0; i < 25; i++) {
         if (i < 10) {
-            price.push(100 * Math.round(Math.pow(itemLevel, 3) * (i + 1) / 2500 + 10));
+            basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * (i + 1) / 2500 + 10));
         }
         else if (i < 15) {
-            price.push(100 * Math.round(Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) / 40000 + 10));
+            basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) / 40000 + 10));
         }
         else if (i < 18) {
-            price.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 12000 + 10)));
+            basePrice.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 12000 + 10)));
         }
         else if (i < 20) {
-            price.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 11000 + 10)));
+            basePrice.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 11000 + 10)));
         }
         else {
-            price.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 10000 + 10)));
+            basePrice.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 10000 + 10)));
         }
 
-        let extraCost = 0;
         if (noBoomEvent && i >= 12 && i < 15) {
             boomRate[i] = 0;
         }
@@ -90,9 +90,10 @@ function calculate() {
             successRate[i] = 1;
             boomRate[i] = 0;
         }
+        let extraCost = 0;
         if (safeguard && i >= 12 && i < 17) {
             if (boomRate[i] !== 0) {
-                extraCost = price[i];
+                extraCost = basePrice[i];
             }
             boomRate[i] = 0;
         }
@@ -103,8 +104,8 @@ function calculate() {
         if (i < 17) {
             discount -= mvpDiscount;
         }
-        price[i] = discount * price[i];
-        price[i] += extraCost;
+        basePrice[i] = discount * basePrice[i];
+        price.push(basePrice[i] + extraCost);
         
         if (successRate[i] < 1) {
             successRate[i] *= starCatchRate;
@@ -137,7 +138,7 @@ function calculate() {
                 singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * price[i - 2])) / successRate[i];
             }
             else {
-                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * (1 - boomRate[i - 1]) * (price[i - 2] + cost[i - 1]) + (1 - successRate[i - 1]) * boomRate[i - 1] * boomCost(i, cost)) + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
+                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * (1 - boomRate[i - 1]) * (basePrice[i - 2] + cost[i - 1]) + (1 - successRate[i - 1]) * boomRate[i - 1] * boomCost(i, cost)) + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
             }
         }
 
