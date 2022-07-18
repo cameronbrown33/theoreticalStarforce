@@ -3,7 +3,7 @@ function calculate() {
     let current = parseInt(document.getElementById("current_stars").value);
     let target = parseInt(document.getElementById("target_stars").value);
     let mvp = document.getElementById("mvp").value;
-    let safeguard = document.getElementById("safeguard").value === "yes";
+    let safeguard = document.getElementById("safeguard").value;
     let starCatch = document.getElementById("starcatch").value;
     let thirtyPercentEvent = document.getElementById("30_percent").checked;
     let fiveTenFifteenEvent = document.getElementById("5_10_15").checked;
@@ -91,7 +91,8 @@ function calculate() {
             boomRate[i] = 0;
         }
         let extraCost = 0;
-        if (safeguard && i >= 12 && i < 17) {
+        if (((safeguard === "always" || safeguard === "under_15") && i >= 12 && i < 15) ||
+            ((safeguard === "always" || safeguard === "over_15") && i >= 15 && i < 17)) {
             if (boomRate[i] !== 0) {
                 extraCost = basePrice[i];
             }
