@@ -74,13 +74,13 @@ function calculate() {
             basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) / 40000 + 10));
         }
         else if (i < 18) {
-            basePrice.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 12000 + 10)));
+            basePrice.push(100 * Math.round(.6 * (Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 200000) / 12000));
         }
         else if (i < 20) {
-            basePrice.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 11000 + 10)));
+            basePrice.push(100 * Math.round(.55 * (Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 200000) / 11000));
         }
         else {
-            basePrice.push(100 * Math.round(.78 * ((Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 1000) / 10000 + 10)));
+            basePrice.push(100 * Math.round(.5 * (Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 200000) / 10000));
         }
 
         if (noBoomEvent && i >= 12 && i < 15) {
