@@ -8,7 +8,6 @@ function calculate() {
     let thirtyPercentEvent = document.getElementById("30_percent").checked;
     let fiveTenFifteenEvent = document.getElementById("5_10_15").checked;
     let onePlusOneEvent = document.getElementById("one_plus_one").checked;
-    let noBoomEvent = document.getElementById("no_boom").checked;
 
     let error = false;
     let errorMessage = "";
@@ -38,11 +37,11 @@ function calculate() {
     }
     
     let successRate = [.95, .9, .85, .85, .8, .75, .7, .65, .6, .55, .5, .45, .4, .35, .3, .3, .3, .3, .3, .3, .3, .3, .03, .02, .01];
-    let boomRate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .01, .02, .02, .03, .03, .03, .04, .04, .1, .1, .2, .3, .4];
+    let boomRate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .03, .03, .03, .04, .04, .1, .1, .2, .3, .4];
     let price = [];
     let basePrice = [];
     let cost = [];
-    let noBoomChance = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    let noBoomChance = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
     let totalCost = 0;
     let totalBooms = 0;
@@ -93,16 +92,13 @@ function calculate() {
 
         basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * Math.pow(i + 1, exponent) / divisor + 10));
 
-        if (noBoomEvent && i >= 12 && i < 15) {
-            boomRate[i] = 0;
-        }
         if (fiveTenFifteenEvent && (i === 5 || i === 10 || i === 15)) {
             successRate[i] = 1;
             boomRate[i] = 0;
         }
         let extraCost = 0;
-        if (((safeguard === "always" || safeguard === "under_15") && i >= 12 && i < 15) ||
-            ((safeguard === "always" || safeguard === "over_15") && i >= 15 && i < 17)) {
+        if (((safeguard === "always" || safeguard === "15_to_16") && i === 15) ||
+            ((safeguard === "always" || safeguard === "16_to_17") && i === 16)) {
             if (boomRate[i] !== 0) {
                 extraCost = basePrice[i];
             }
@@ -130,27 +126,17 @@ function calculate() {
     for (let i = 0; i < target; i++) {
         let singleCost = 0;
 
-        if (i <= 10 || i === 15 || i === 20) {
+        if (i <= 15 || i === 20) {
             // easy enough
             singleCost = (price[i] + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
         }
-        else if (i === 11 || i === 16 || i === 21) {
+        else if (i === 16 || i === 21) {
             // getting intense
-            if (onePlusOneEvent && i == 11) {
-                singleCost = price[i] + (1 - successRate[i]) * cost[i - 1];
-            }
-            else {
-                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * cost[i - 1] + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
-            }
+            singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * cost[i - 1] + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
         }
         else {
             // oh dear god wtf
-            if (onePlusOneEvent && i == 12) {
-                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * price[i - 2])) / successRate[i];
-            }
-            else {
-                singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * (1 - boomRate[i - 1]) * (basePrice[i - 2] + cost[i - 1]) + (1 - successRate[i - 1]) * boomRate[i - 1] * boomCost(i, cost)) + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
-            }
+            singleCost = (price[i] + (1 - successRate[i]) * (1 - boomRate[i]) * (price[i - 1] + (1 - successRate[i - 1]) * (1 - boomRate[i - 1]) * (basePrice[i - 2] + cost[i - 1]) + (1 - successRate[i - 1]) * boomRate[i - 1] * boomCost(i, cost)) + (1 - successRate[i]) * boomRate[i] * boomCost(i, cost)) / successRate[i];
         }
 
         if (i >= current) {
@@ -174,11 +160,11 @@ function calculate() {
         cost.push(singleCost);
     }
 
-    for (let i = 12; i < target; i++) {
+    for (let i = 15; i < target; i++) {
         let singleChance = 1;
         let loopChance = 0;
 
-        if (i === 12 || i === 15 || i === 20) {
+        if (i === 15 || i === 20) {
             loopChance = (1 - successRate[i]) * (1 - boomRate[i]);
         }
         else if (i === 16 || i === 21) {
@@ -193,22 +179,22 @@ function calculate() {
     }
 
     let noBoomChanceFromCurrent = 1;
-    let noBoomChanceFrom12 = 1;
+    let noBoomChanceFrom15 = 1;
 
-    for (let i = 12; i < target; i++) {
-        noBoomChanceFrom12 *= noBoomChance[i];
+    for (let i = 15; i < target; i++) {
+        noBoomChanceFrom15 *= noBoomChance[i];
     }
 
-    if (current > 12) {
+    if (current > 15) {
         for (let i = current; i < target; i++) {
             noBoomChanceFromCurrent *= noBoomChance[i];
         }
     }
     else {
-        noBoomChanceFromCurrent = noBoomChanceFrom12;
+        noBoomChanceFromCurrent = noBoomChanceFrom15;
     }
 
-    totalBooms = (1 - noBoomChanceFromCurrent) / noBoomChanceFrom12;
+    totalBooms = (1 - noBoomChanceFromCurrent) / noBoomChanceFrom15;
 
     let averageMeso = Math.round(totalCost).toLocaleString();
     let averageBooms = (Math.round(1000 * totalBooms) / 1000).toFixed(3);
