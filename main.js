@@ -67,21 +67,31 @@ function calculate() {
     }
     
     for (let i = 0; i < 25; i++) {
+        let divisor = 2500;
+        let exponent = 2.7;
         if (i < 10) {
-            basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * (i + 1) / 2500 + 10));
+            exp = 1;
         }
-        else if (i < 15) {
-            basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) / 40000 + 10));
+        else if (i === 10) {
+            divisor = 40000;
         }
-        else if (i < 18) {
-            basePrice.push(100 * Math.round(.6 * (Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 200000) / 12000));
+        else if (i === 11) {
+            divisor = 22000;
         }
-        else if (i < 20) {
-            basePrice.push(100 * Math.round(.55 * (Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 200000) / 11000));
+        else if (i === 12) {
+            divisor = 15000;
+        }
+        else if (i === 13) {
+            divisor = 11000;
+        }
+        else if (i === 14) {
+            divisor = 7500;
         }
         else {
-            basePrice.push(100 * Math.round(.5 * (Math.pow(itemLevel, 3) * Math.pow(i + 1, 2.7) + 200000) / 10000));
+            divisor = 20000;
         }
+
+        basePrice.push(100 * Math.round(Math.pow(itemLevel, 3) * Math.pow(i + 1, exponent) / divisor + 10));
 
         if (noBoomEvent && i >= 12 && i < 15) {
             boomRate[i] = 0;
