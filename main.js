@@ -69,7 +69,7 @@ function calculate() {
         let divisor = 2500;
         let exponent = 2.7;
         if (i < 10) {
-            exp = 1;
+            exponent = 1;
         }
         else if (i === 10) {
             divisor = 40000;
